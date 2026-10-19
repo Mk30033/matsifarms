@@ -14,13 +14,694 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cages: {
+        Row: {
+          id: string
+          label: string
+          pen_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          label: string
+          pen_id: string
+          user_id?: string
+        }
+        Update: {
+          id?: string
+          label?: string
+          pen_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cages_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      egg_collections: {
+        Row: {
+          cage_id: string
+          cracked: number
+          date: string
+          good: number
+          id: string
+          pen_id: string
+          rejected: number
+          session: string
+          session_id: string
+          tier_id: string
+          user_id: string
+        }
+        Insert: {
+          cage_id: string
+          cracked?: number
+          date: string
+          good?: number
+          id?: string
+          pen_id: string
+          rejected?: number
+          session: string
+          session_id: string
+          tier_id: string
+          user_id?: string
+        }
+        Update: {
+          cage_id?: string
+          cracked?: number
+          date?: string
+          good?: number
+          id?: string
+          pen_id?: string
+          rejected?: number
+          session?: string
+          session_id?: string
+          tier_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "egg_collections_cage_id_fkey"
+            columns: ["cage_id"]
+            isOneToOne: false
+            referencedRelation: "cages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "egg_collections_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "egg_collections_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "egg_sessions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "egg_collections_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      egg_sessions: {
+        Row: {
+          crates: number | null
+          created_at: string
+          date: string
+          flock_id: string | null
+          id: string
+          notes: string | null
+          pen_id: string
+          session: string
+          user_id: string
+        }
+        Insert: {
+          crates?: number | null
+          created_at?: string
+          date?: string
+          flock_id?: string | null
+          id?: string
+          notes?: string | null
+          pen_id: string
+          session: string
+          user_id?: string
+        }
+        Update: {
+          crates?: number | null
+          created_at?: string
+          date?: string
+          flock_id?: string | null
+          id?: string
+          notes?: string | null
+          pen_id?: string
+          session?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "egg_sessions_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "egg_sessions_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farm_settings: {
+        Row: {
+          created_at: string
+          low_feed_threshold_kg: number
+          seeded: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          low_feed_threshold_kg?: number
+          seeded?: boolean
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          low_feed_threshold_kg?: number
+          seeded?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
+      feed_stock: {
+        Row: {
+          bags: number
+          cost_per_bag: number
+          created_at: string
+          date_received: string
+          feed_type: string
+          id: string
+          kg_per_bag: number
+          supplier: string | null
+          user_id: string
+        }
+        Insert: {
+          bags?: number
+          cost_per_bag?: number
+          created_at?: string
+          date_received?: string
+          feed_type: string
+          id?: string
+          kg_per_bag?: number
+          supplier?: string | null
+          user_id?: string
+        }
+        Update: {
+          bags?: number
+          cost_per_bag?: number
+          created_at?: string
+          date_received?: string
+          feed_type?: string
+          id?: string
+          kg_per_bag?: number
+          supplier?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      feed_usage: {
+        Row: {
+          created_at: string
+          date: string
+          feed_type: string
+          flock_id: string | null
+          id: string
+          kg: number
+          pen_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date?: string
+          feed_type: string
+          flock_id?: string | null
+          id?: string
+          kg: number
+          pen_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          feed_type?: string
+          flock_id?: string | null
+          id?: string
+          kg?: number
+          pen_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feed_usage_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "feed_usage_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flocks: {
+        Row: {
+          age_at_placement_days: number
+          breed: string | null
+          created_at: string
+          current_count: number
+          date_placed: string
+          hatchery: string | null
+          id: string
+          is_sample: boolean
+          name: string
+          pen_id: string | null
+          starting_count: number
+          tier_ids: string[]
+          user_id: string
+        }
+        Insert: {
+          age_at_placement_days?: number
+          breed?: string | null
+          created_at?: string
+          current_count?: number
+          date_placed?: string
+          hatchery?: string | null
+          id?: string
+          is_sample?: boolean
+          name: string
+          pen_id?: string | null
+          starting_count?: number
+          tier_ids?: string[]
+          user_id?: string
+        }
+        Update: {
+          age_at_placement_days?: number
+          breed?: string | null
+          created_at?: string
+          current_count?: number
+          date_placed?: string
+          hatchery?: string | null
+          id?: string
+          is_sample?: boolean
+          name?: string
+          pen_id?: string | null
+          starting_count?: number
+          tier_ids?: string[]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flocks_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mortality_logs: {
+        Row: {
+          cause: string | null
+          count: number
+          created_at: string
+          date: string
+          flock_id: string
+          id: string
+          kind: string
+          pen_id: string | null
+          tier_id: string | null
+          user_id: string
+        }
+        Insert: {
+          cause?: string | null
+          count: number
+          created_at?: string
+          date?: string
+          flock_id: string
+          id?: string
+          kind?: string
+          pen_id?: string | null
+          tier_id?: string | null
+          user_id?: string
+        }
+        Update: {
+          cause?: string | null
+          count?: number
+          created_at?: string
+          date?: string
+          flock_id?: string
+          id?: string
+          kind?: string
+          pen_id?: string | null
+          tier_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mortality_logs_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mortality_logs_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "mortality_logs_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pens: {
+        Row: {
+          created_at: string
+          id: string
+          is_sample: boolean
+          name: string
+          sort_order: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_sample?: boolean
+          name: string
+          sort_order?: number
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_sample?: boolean
+          name?: string
+          sort_order?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      tiers: {
+        Row: {
+          bird_count: number
+          cage_id: string
+          id: string
+          level: string
+          pen_id: string
+          user_id: string
+        }
+        Insert: {
+          bird_count?: number
+          cage_id: string
+          id?: string
+          level: string
+          pen_id: string
+          user_id?: string
+        }
+        Update: {
+          bird_count?: number
+          cage_id?: string
+          id?: string
+          level?: string
+          pen_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tiers_cage_id_fkey"
+            columns: ["cage_id"]
+            isOneToOne: false
+            referencedRelation: "cages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tiers_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      treatments: {
+        Row: {
+          created_at: string
+          dosage: string | null
+          drug: string
+          end_date: string | null
+          flock_id: string | null
+          id: string
+          pen_id: string | null
+          reason: string | null
+          start_date: string
+          user_id: string
+          withdrawal_days: number | null
+        }
+        Insert: {
+          created_at?: string
+          dosage?: string | null
+          drug: string
+          end_date?: string | null
+          flock_id?: string | null
+          id?: string
+          pen_id?: string | null
+          reason?: string | null
+          start_date?: string
+          user_id?: string
+          withdrawal_days?: number | null
+        }
+        Update: {
+          created_at?: string
+          dosage?: string | null
+          drug?: string
+          end_date?: string | null
+          flock_id?: string | null
+          id?: string
+          pen_id?: string | null
+          reason?: string | null
+          start_date?: string
+          user_id?: string
+          withdrawal_days?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "treatments_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "treatments_pen_id_fkey"
+            columns: ["pen_id"]
+            isOneToOne: false
+            referencedRelation: "pens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vaccination_records: {
+        Row: {
+          administered_by: string | null
+          batch_number: string | null
+          created_at: string
+          date_given: string
+          dosage: string | null
+          flock_id: string
+          id: string
+          route: string | null
+          schedule_id: string | null
+          user_id: string
+          vaccine_name: string
+        }
+        Insert: {
+          administered_by?: string | null
+          batch_number?: string | null
+          created_at?: string
+          date_given?: string
+          dosage?: string | null
+          flock_id: string
+          id?: string
+          route?: string | null
+          schedule_id?: string | null
+          user_id?: string
+          vaccine_name: string
+        }
+        Update: {
+          administered_by?: string | null
+          batch_number?: string | null
+          created_at?: string
+          date_given?: string
+          dosage?: string | null
+          flock_id?: string
+          id?: string
+          route?: string | null
+          schedule_id?: string | null
+          user_id?: string
+          vaccine_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vaccination_records_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vaccination_records_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "vaccination_schedule"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vaccination_schedule: {
+        Row: {
+          age_days: number | null
+          dosage: string | null
+          due_date: string
+          flock_id: string
+          id: string
+          notes: string | null
+          route: string | null
+          user_id: string
+          vaccine_name: string
+        }
+        Insert: {
+          age_days?: number | null
+          dosage?: string | null
+          due_date: string
+          flock_id: string
+          id?: string
+          notes?: string | null
+          route?: string | null
+          user_id?: string
+          vaccine_name: string
+        }
+        Update: {
+          age_days?: number | null
+          dosage?: string | null
+          due_date?: string
+          flock_id?: string
+          id?: string
+          notes?: string | null
+          route?: string | null
+          user_id?: string
+          vaccine_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vaccination_schedule_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vet_visits: {
+        Row: {
+          cost: number | null
+          created_at: string
+          date: string
+          diagnosis: string | null
+          flock_id: string | null
+          id: string
+          notes: string | null
+          user_id: string
+          vet_name: string | null
+        }
+        Insert: {
+          cost?: number | null
+          created_at?: string
+          date?: string
+          diagnosis?: string | null
+          flock_id?: string | null
+          id?: string
+          notes?: string | null
+          user_id?: string
+          vet_name?: string | null
+        }
+        Update: {
+          cost?: number | null
+          created_at?: string
+          date?: string
+          diagnosis?: string | null
+          flock_id?: string | null
+          id?: string
+          notes?: string | null
+          user_id?: string
+          vet_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vet_visits_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      weight_logs: {
+        Row: {
+          avg_weight_g: number
+          created_at: string
+          date: string
+          flock_id: string
+          id: string
+          sample_size: number | null
+          user_id: string
+        }
+        Insert: {
+          avg_weight_g: number
+          created_at?: string
+          date?: string
+          flock_id: string
+          id?: string
+          sample_size?: number | null
+          user_id?: string
+        }
+        Update: {
+          avg_weight_g?: number
+          created_at?: string
+          date?: string
+          flock_id?: string
+          id?: string
+          sample_size?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "weight_logs_flock_id_fkey"
+            columns: ["flock_id"]
+            isOneToOne: false
+            referencedRelation: "flocks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      seed_sample_data: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
