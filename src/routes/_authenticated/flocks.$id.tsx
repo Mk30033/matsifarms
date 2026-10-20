@@ -56,7 +56,7 @@ function FlockDetail() {
     try { await db(supabase.from("flocks").delete().eq("id", id)); refresh(); navigate({ to: "/flocks" }); toast.success("Flock deleted"); } catch (e) { onError(e); }
   }
   async function addWeight() {
-    if (!Number(w.avg)) return toast.error("Enter average weight");
+    if (!Number(w.avg)) { toast.error("Enter average weight"); return; }
     try { await db(supabase.from("weight_logs").insert({ flock_id: id, date: w.date, avg_weight_g: Number(w.avg), sample_size: Number(w.n) || null })); setW({ ...w, avg: "", n: "" }); refresh(); toast.success("Weight logged"); } catch (e) { onError(e); }
   }
 

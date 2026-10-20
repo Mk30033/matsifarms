@@ -30,14 +30,14 @@ export function FlockForm({ flock, onDone }: { flock?: Row<"flocks">; onDone: ()
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!f.name.trim()) return toast.error("Name is required");
-    if (f.starting_count <= 0) return toast.error("Starting count must be more than 0");
+    if (!f.name.trim()) { toast.error("Name is required"); return; }
+    if (f.starting_count <= 0) { toast.error("Starting count must be more than 0"); return; }
     const payload = { ...f, pen_id: f.pen_id || null, current_count: flock ? f.current_count : f.current_count || f.starting_count };
     try {
       if (flock) await db(supabase.from("flocks").update(payload).eq("id", flock.id));
       else {
         const created = await db(supabase.from("flocks").insert(payload).select().single());
-        const rows = buildSchedule(created);
+        const rows = created ? buildSchedule(created) : [];
         if (rows.length) await db(supabase.from("vaccination_schedule").insert(rows));
       }
       toast.success(flock ? "Flock updated" : "Flock created with vaccination schedule");

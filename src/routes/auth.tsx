@@ -36,7 +36,7 @@ function AuthPage() {
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (password.length < 6) return toast.error("Password must be at least 6 characters");
+    if (password.length < 6) { toast.error("Password must be at least 6 characters"); return; }
     setBusy(true);
     try {
       if (mode === "in") {
@@ -64,7 +64,7 @@ function AuthPage() {
   }
 
   async function forgot() {
-    if (!email) return toast.error("Enter your email first");
+    if (!email) { toast.error("Enter your email first"); return; }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
