@@ -32,7 +32,7 @@ function EggsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => { if (!penId && pens.data?.length) setPenId(pens.data[0].id); }, [pens.data, penId]);
+  useEffect(() => { if (!penId && pens.data?.length) setPenId(pens.data[0]!.id); }, [pens.data, penId]);
 
   const penTiers = useMemo(() => {
     const out: { id: string; cage_id: string; cage: string; level: string }[] = [];
@@ -70,8 +70,8 @@ function EggsPage() {
   function reset() { setCounts({}); setCrates(""); setEditingId(null); }
 
   async function save() {
-    if (!penId) return toast.error("Select a pen");
-    if (totGood + totCracked + totRej === 0) return toast.error("Enter at least one egg count");
+    if (!penId) { toast.error("Select a pen"); return; }
+    if (totGood + totCracked + totRej === 0) { toast.error("Enter at least one egg count"); return; }
     if (existing && existing.id !== editingId) {
       toast.warning("An entry already exists for this pen, date and session.", { action: { label: "Edit it", onClick: () => loadExisting(existing.id) } });
       return;
@@ -83,7 +83,7 @@ function EggsPage() {
       if (sid) await db(supabase.from("egg_sessions").update(payload).eq("id", sid));
       else sid = (await db(supabase.from("egg_sessions").insert(payload).select("id").single())).id;
       const rows = penTiers.map((t) => ({
-        session_id: sid!, pen_id: penId, cage_id: t.cage_id, tier_id: t.id, date, session,
+        session_id: sid as string, pen_id: penId, cage_id: t.cage_id, tier_id: t.id, date, session,
         good: counts[t.id]?.good ?? 0, cracked: counts[t.id]?.cracked ?? 0, rejected: counts[t.id]?.rejected ?? 0,
       }));
       await db(supabase.from("egg_collections").upsert(rows, { onConflict: "session_id,tier_id" }));

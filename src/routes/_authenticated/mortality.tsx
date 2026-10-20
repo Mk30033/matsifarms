@@ -21,13 +21,13 @@ function MortPage() {
   const logs = useTable("mortality_logs");
   const refresh = useRefresh();
   const [f, setF] = useState({ date: todayISO(), flock_id: "", tier_id: "", kind: "death", count: 1, cause: "" });
-  useEffect(() => { if (!f.flock_id && flocks.data?.length) setF((x) => ({ ...x, flock_id: flocks.data![0].id })); }, [flocks.data]);
+  useEffect(() => { if (!f.flock_id && flocks.data?.length) setF((x) => ({ ...x, flock_id: flocks.data![0]!.id })); }, [flocks.data]);
   const flock = flocks.data?.find((x) => x.id === f.flock_id);
   const penTiers = (tiers.data ?? []).filter((t) => t.pen_id === flock?.pen_id);
 
   async function save() {
-    if (!flock) return toast.error("Select a flock");
-    if (f.count < 1) return toast.error("Count must be at least 1");
+    if (!flock) { toast.error("Select a flock"); return; }
+    if (f.count < 1) { toast.error("Count must be at least 1"); return; }
     try {
       await db(supabase.from("mortality_logs").insert({ ...f, pen_id: flock.pen_id, tier_id: f.tier_id || null }));
       toast.success(`Logged ${f.count} ${f.kind}${f.count > 1 ? "s" : ""}`);

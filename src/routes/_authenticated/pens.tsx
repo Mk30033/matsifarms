@@ -48,7 +48,7 @@ function PensPage() {
     } catch (e) { onError(e); }
   }
   async function rename(id: string) {
-    if (!editName.trim()) return toast.error("Name is required");
+    if (!editName.trim()) { toast.error("Name is required"); return; }
     try {
       await db(supabase.from("pens").update({ name: editName.trim() }).eq("id", id));
       setEditing(null); refresh(); toast.success("Pen renamed");

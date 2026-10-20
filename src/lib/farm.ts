@@ -75,7 +75,7 @@ export function buildSchedule(flock: { id: string; date_placed: string; age_at_p
 
 export function downloadCSV(filename: string, rows: Record<string, unknown>[]) {
   if (!rows.length) return;
-  const headers = Object.keys(rows[0]);
+  const headers = Object.keys(rows[0] ?? {});
   const esc = (v: unknown) => {
     const s = v == null ? "" : String(v);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
