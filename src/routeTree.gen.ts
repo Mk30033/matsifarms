@@ -13,7 +13,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedEggsRouteImport } from './routes/_authenticated/eggs'
+import { Route as AuthenticatedMortalityRouteImport } from './routes/_authenticated/mortality'
 import { Route as AuthenticatedPensRouteImport } from './routes/_authenticated/pens'
+import { Route as AuthenticatedFlocksIndexRouteImport } from './routes/_authenticated/flocks.index'
+import { Route as AuthenticatedFlocksIdRouteImport } from './routes/_authenticated/flocks.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,9 +38,30 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedEggsRoute = AuthenticatedEggsRouteImport.update({
+  id: '/eggs',
+  path: '/eggs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMortalityRoute = AuthenticatedMortalityRouteImport.update({
+  id: '/mortality',
+  path: '/mortality',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPensRoute = AuthenticatedPensRouteImport.update({
   id: '/pens',
   path: '/pens',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFlocksIndexRoute =
+  AuthenticatedFlocksIndexRouteImport.update({
+    id: '/flocks/',
+    path: '/flocks/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedFlocksIdRoute = AuthenticatedFlocksIdRouteImport.update({
+  id: '/flocks/$id',
+  path: '/flocks/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
@@ -44,13 +69,21 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/eggs': typeof AuthenticatedEggsRoute
+  '/mortality': typeof AuthenticatedMortalityRoute
   '/pens': typeof AuthenticatedPensRoute
+  '/flocks/$id': typeof AuthenticatedFlocksIdRoute
+  '/flocks/': typeof AuthenticatedFlocksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/eggs': typeof AuthenticatedEggsRoute
+  '/mortality': typeof AuthenticatedMortalityRoute
   '/pens': typeof AuthenticatedPensRoute
+  '/flocks/$id': typeof AuthenticatedFlocksIdRoute
+  '/flocks': typeof AuthenticatedFlocksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -58,20 +91,44 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/eggs': typeof AuthenticatedEggsRoute
+  '/_authenticated/mortality': typeof AuthenticatedMortalityRoute
   '/_authenticated/pens': typeof AuthenticatedPensRoute
+  '/_authenticated/flocks/$id': typeof AuthenticatedFlocksIdRoute
+  '/_authenticated/flocks/': typeof AuthenticatedFlocksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/reset-password' | '/pens'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/eggs'
+    | '/mortality'
+    | '/pens'
+    | '/flocks/$id'
+    | '/flocks/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/pens'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/eggs'
+    | '/mortality'
+    | '/pens'
+    | '/flocks/$id'
+    | '/flocks'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
     | '/reset-password'
+    | '/_authenticated/eggs'
+    | '/_authenticated/mortality'
     | '/_authenticated/pens'
+    | '/_authenticated/flocks/$id'
+    | '/_authenticated/flocks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -111,6 +168,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/eggs': {
+      id: '/_authenticated/eggs'
+      path: '/eggs'
+      fullPath: '/eggs'
+      preLoaderRoute: typeof AuthenticatedEggsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mortality': {
+      id: '/_authenticated/mortality'
+      path: '/mortality'
+      fullPath: '/mortality'
+      preLoaderRoute: typeof AuthenticatedMortalityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/pens': {
       id: '/_authenticated/pens'
       path: '/pens'
@@ -118,15 +189,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPensRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/flocks/': {
+      id: '/_authenticated/flocks/'
+      path: '/flocks'
+      fullPath: '/flocks/'
+      preLoaderRoute: typeof AuthenticatedFlocksIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/flocks/$id': {
+      id: '/_authenticated/flocks/$id'
+      path: '/flocks/$id'
+      fullPath: '/flocks/$id'
+      preLoaderRoute: typeof AuthenticatedFlocksIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedEggsRoute: typeof AuthenticatedEggsRoute
+  AuthenticatedMortalityRoute: typeof AuthenticatedMortalityRoute
   AuthenticatedPensRoute: typeof AuthenticatedPensRoute
+  AuthenticatedFlocksIdRoute: typeof AuthenticatedFlocksIdRoute
+  AuthenticatedFlocksIndexRoute: typeof AuthenticatedFlocksIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedEggsRoute: AuthenticatedEggsRoute,
+  AuthenticatedMortalityRoute: AuthenticatedMortalityRoute,
   AuthenticatedPensRoute: AuthenticatedPensRoute,
+  AuthenticatedFlocksIdRoute: AuthenticatedFlocksIdRoute,
+  AuthenticatedFlocksIndexRoute: AuthenticatedFlocksIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
