@@ -117,8 +117,8 @@ function HealthPage() {
     try { await db(supabase.from(table).delete().eq("id", id)); refresh(); } catch (e) { onError(e); }
   }
 
-  const holdUntil = (end: string | null, days: number | null) =>
-    format(addDays(parseISO(end ?? trt.start_date || todayISO()), days ?? 0), "yyyy-MM-dd");
+  const holdUntil = (start: string, end: string | null, days: number | null) =>
+    format(addDays(parseISO(end ?? start), days ?? 0), "yyyy-MM-dd");
   const today = todayISO();
 
   if (flocks.isLoading) return <><PageHeader title="Health & Vet" /><Loading rows={4} /></>;
@@ -145,7 +145,7 @@ function HealthPage() {
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   <VaccineBadge status={vaccineStatus(s.due_date, false, today)} />
-                  <Button size="sm" variant="outline" onClick={() => markDone(s.id)}>Done</button_label>
+                  <Button size="sm" variant="outline" onClick={() => markDone(s.id)}>Done</Button>
                 </div>
               </li>
             ))}
@@ -183,7 +183,7 @@ function HealthPage() {
         {treatments.isLoading ? <Loading /> : !treatments.data?.length ? <Empty title="No treatments yet" /> : (
           <ul className="divide-y text-sm">
             {treatments.data.map((t) => {
-              const hold = holdUntil(t.end_date, t.withdrawal_days);
+              const hold = holdUntil(t.start_date, t.end_date, t.withdrawal_days);
               const active = hold >= today;
               return (
                 <li key={t.id} className="flex items-center justify-between gap-2 py-2.5">
