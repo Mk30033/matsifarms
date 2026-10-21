@@ -81,7 +81,7 @@ function EggsPage() {
       let sid = editingId;
       const payload = { pen_id: penId, date, session, flock_id: flock?.id ?? null, crates: crates ? Number(crates) : null };
       if (sid) await db(supabase.from("egg_sessions").update(payload).eq("id", sid));
-      else sid = (await db(supabase.from("egg_sessions").insert(payload).select("id").single())).id;
+      else sid = (await db(supabase.from("egg_sessions").insert(payload).select("id").single()))!.id;
       const rows = penTiers.map((t) => ({
         session_id: sid as string, pen_id: penId, cage_id: t.cage_id, tier_id: t.id, date, session,
         good: counts[t.id]?.good ?? 0, cracked: counts[t.id]?.cracked ?? 0, rejected: counts[t.id]?.rejected ?? 0,
