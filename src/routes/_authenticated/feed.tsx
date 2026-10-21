@@ -78,7 +78,7 @@ function FeedPage() {
     const v = Number(thr);
     if (!thr || v < 0) { toast.error("Enter a valid weight in kg"); return; }
     try {
-      if (settings.data) await db(supabase.from("farm_settings").update({ low_feed_threshold_kg: v }).eq("id", settings.data.id));
+      if (settings.data) await db(supabase.from("farm_settings").update({ low_feed_threshold_kg: v }).eq("user_id", settings.data.user_id));
       else await db(supabase.from("farm_settings").insert({ low_feed_threshold_kg: v }));
       toast.success("Low-stock alert updated");
       setThr("");

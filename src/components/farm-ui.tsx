@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Stage, VaccineStatus } from "@/lib/farm";
 
-export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
+export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string | undefined; action?: ReactNode | undefined }) {
   return (
     <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
       <div>
@@ -30,7 +30,7 @@ export function Panel({ title, action, children, className }: { title?: string; 
   );
 }
 
-export function Stat({ label, value, hint, tone }: { label: string; value: ReactNode; hint?: ReactNode; tone?: "warn" | "bad" }) {
+export function Stat({ label, value, hint, tone }: { label: string; value: ReactNode; hint?: ReactNode | undefined; tone?: "warn" | "bad" | undefined }) {
   return (
     <div
       className={cn(
