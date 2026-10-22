@@ -62,7 +62,7 @@ function Dashboard() {
   }, [sessions.data, totalsBySession]);
 
   const weekGood = last7.reduce((s, [, n]) => s + n, 0);
-  const weekRate = layRate(weekGood, birds);
+  const weekRate = layRate(weekGood / 7, birds);
 
   const feed = useMemo(() => feedSummary(stock.data ?? [], usage.data ?? []), [stock.data, usage.data]);
 
@@ -125,7 +125,7 @@ function Dashboard() {
         <Panel title="Eggs – last 7 days" className="mb-5">
           <div className="flex h-32 items-end gap-2">
             {last7.map(([day, n]) => (
-              <div key={day} className="flex flex-1 flex-col items-center gap-1">
+              <div key={day} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
                 <div className="w-full rounded-t-lg bg-primary/80" style={{ height: `${Math.max(4, (n / maxDay) * 100)}%` }} />
                 <span className="text-[10px] text-muted-foreground">{day.slice(5)}</span>
               </div>
