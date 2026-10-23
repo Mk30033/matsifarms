@@ -25,11 +25,15 @@ export const listAdminUsers = createServerFn({ method: "POST" })
     const { data, error } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
     if (error) throw new Error(error.message);
     return data.users
-      .map((u) => ({
-        id: u.id,
-        username: (u.user_metadata?.username as string) || (u.email ? u.email.split("@")[0] : ""),
-        createdAt: u.created_at,
-      }))
+      .map((u) => {
+        const meta = (u.user_metadata ?? {}) as Record<string, string>;
+        const fallback = u.email ? u.email.split("@")[0] : "";
+        return {
+          id: u.id,
+          username: meta["username"] || fallback || "user",
+          createdAt: u.created_at,
+        };
+      })
       .sort((a, b) => a.username.localeCompare(b.username));
   });
 

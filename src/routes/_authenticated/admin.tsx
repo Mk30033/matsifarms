@@ -3,7 +3,8 @@ import { useState } from "react";
 import { KeyRound, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import { createAppUser, listAdminUsers, setUserPassword, type AdminUser } from "@/lib/admin.functions";
-import { PageHeader, Panel, Field, TextInput, Button } from "@/components/farm-ui";
+import { PageHeader, Panel, Field, TextInput } from "@/components/farm-ui";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
