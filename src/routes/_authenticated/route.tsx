@@ -81,7 +81,7 @@ function Shell() {
           <span className="font-display text-xl font-bold">Matsi Farms</span>
         </div>
         <nav className="flex-1 space-y-1 px-3">
-          {NAV.map((n) => {
+          {visibleNav.map((n) => {
             const active = path.startsWith(n.to);
             return (
               <Link
@@ -115,7 +115,7 @@ function Shell() {
             <span className="font-display text-lg font-bold">Matsi Farms</span>
           </div>
           <div className="flex items-center gap-1">
-            {NAV.filter((n) => !n.mobile).map((n) => (
+            {visibleNav.filter((n) => !n.mobile).map((n) => (
               <Link key={n.to} to={n.to} aria-label={n.label} className={cn("rounded-lg p-2", path.startsWith(n.to) ? "bg-secondary text-primary" : "text-muted-foreground")}>
                 <n.icon className="h-5 w-5" />
               </Link>
