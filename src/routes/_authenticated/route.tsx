@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BarChart3, Bird, Egg, HeartPulse, LayoutDashboard, LogOut, Skull, Warehouse, Wheat } from "lucide-react";
+import { BarChart3, Bird, Egg, HeartPulse, LayoutDashboard, LogOut, Shield, Skull, Warehouse, Wheat } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSchedule } from "@/lib/farm";
 import { cn } from "@/lib/utils";
