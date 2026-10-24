@@ -52,6 +52,17 @@ function Shell() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const { user } = Route.useRouteContext();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .then(({ data }) => setIsAdmin((data ?? []).some((r) => r.role === "admin")));
+  }, [user.id]);
+
+  const visibleNav = NAV.filter((n) => !("adminOnly" in n && n.adminOnly) || isAdmin);
 
   async function signOut() {
     await qc.cancelQueries();
