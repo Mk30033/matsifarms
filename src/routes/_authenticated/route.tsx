@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BarChart3, Bird, Egg, HeartPulse, LayoutDashboard, LogOut, Skull, Warehouse, Wheat } from "lucide-react";
+import { BarChart3, Bird, Egg, HeartPulse, LayoutDashboard, LogOut, Shield, Skull, Warehouse, Wheat } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { buildSchedule } from "@/lib/farm";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,7 @@ const NAV = [
   { to: "/mortality", label: "Mortality & Culls", short: "Losses", icon: Skull, mobile: false },
   { to: "/pens", label: "Pens & Cages", short: "Pens", icon: Warehouse, mobile: false },
   { to: "/reports", label: "Reports", short: "Reports", icon: BarChart3, mobile: false },
+  { to: "/admin", label: "Admin Dashboard", short: "Admin", icon: Shield, mobile: false, adminOnly: true },
 ] as const;
 
 function useSeed() {
@@ -51,6 +52,17 @@ function Shell() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const { user } = Route.useRouteContext();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .then(({ data }) => setIsAdmin((data ?? []).some((r) => r.role === "admin")));
+  }, [user.id]);
+
+  const visibleNav = NAV.filter((n) => !("adminOnly" in n && n.adminOnly) || isAdmin);
 
   async function signOut() {
     await qc.cancelQueries();
@@ -69,7 +81,7 @@ function Shell() {
           <span className="font-display text-xl font-bold">Matsi Farms</span>
         </div>
         <nav className="flex-1 space-y-1 px-3">
-          {NAV.map((n) => {
+          {visibleNav.map((n) => {
             const active = path.startsWith(n.to);
             return (
               <Link
@@ -87,7 +99,7 @@ function Shell() {
           })}
         </nav>
         <div className="border-t border-sidebar-border p-4 text-xs">
-          <div className="truncate opacity-70">{user.email}</div>
+          <div className="truncate opacity-70">{(user.user_metadata as { username?: string } | null)?.username ?? user.email}</div>
           <button onClick={signOut} className="mt-2 flex items-center gap-2 font-medium hover:text-sidebar-primary">
             <LogOut className="h-4 w-4" /> Sign out
           </button>
@@ -103,7 +115,7 @@ function Shell() {
             <span className="font-display text-lg font-bold">Matsi Farms</span>
           </div>
           <div className="flex items-center gap-1">
-            {NAV.filter((n) => !n.mobile).map((n) => (
+            {visibleNav.filter((n) => !n.mobile).map((n) => (
               <Link key={n.to} to={n.to} aria-label={n.label} className={cn("rounded-lg p-2", path.startsWith(n.to) ? "bg-secondary text-primary" : "text-muted-foreground")}>
                 <n.icon className="h-5 w-5" />
               </Link>
