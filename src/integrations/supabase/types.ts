@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          created_at: string
+          entity: string
+          id: string
+          summary: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          entity: string
+          id?: string
+          summary: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          entity?: string
+          id?: string
+          summary?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       cages: {
         Row: {
           id: string
