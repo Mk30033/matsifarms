@@ -99,7 +99,7 @@ function Shell() {
           })}
         </nav>
         <div className="border-t border-sidebar-border p-4 text-xs">
-          <div className="truncate opacity-70">{user.email}</div>
+          <div className="truncate opacity-70">{(user.user_metadata as { username?: string } | null)?.username ?? user.email}</div>
           <button onClick={signOut} className="mt-2 flex items-center gap-2 font-medium hover:text-sidebar-primary">
             <LogOut className="h-4 w-4" /> Sign out
           </button>
