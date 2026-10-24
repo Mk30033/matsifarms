@@ -25,6 +25,7 @@ const NAV = [
   { to: "/mortality", label: "Mortality & Culls", short: "Losses", icon: Skull, mobile: false },
   { to: "/pens", label: "Pens & Cages", short: "Pens", icon: Warehouse, mobile: false },
   { to: "/reports", label: "Reports", short: "Reports", icon: BarChart3, mobile: false },
+  { to: "/admin", label: "Admin Dashboard", short: "Admin", icon: Shield, mobile: false, adminOnly: true },
 ] as const;
 
 function useSeed() {
