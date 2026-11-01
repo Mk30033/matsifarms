@@ -29,6 +29,13 @@
       "when": 1793554489795,
       "tag": "0003_fix_log_activity_trigger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793554515760,
+      "tag": "0004_fix_log_activity_jsonb",
+      "breakpoints": true
     }
   ]
 }
