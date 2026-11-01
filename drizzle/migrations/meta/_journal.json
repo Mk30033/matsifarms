@@ -22,6 +22,27 @@
       "when": 1792846174281,
       "tag": "0002_activity_log_and_triggers",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793554489795,
+      "tag": "0003_fix_log_activity_trigger",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793554515760,
+      "tag": "0004_fix_log_activity_jsonb",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793554538733,
+      "tag": "0005_fix_log_activity_userid_cast",
+      "breakpoints": true
     }
   ]
 }
