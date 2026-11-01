@@ -19,8 +19,8 @@ export const Route = createFileRoute("/_authenticated/admin")({
   }),
   loader: async () => {
     try {
-      const users = await listAdminUsers();
-      return { users };
+      const [users, activity] = await Promise.all([listAdminUsers(), listRecentActivity()]);
+      return { users, activity };
     } catch {
       throw redirect({ to: "/dashboard" });
     }
@@ -29,8 +29,9 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 function AdminPage() {
-  const initial = Route.useLoaderData().users;
-  const [users, setUsers] = useState<AdminUser[]>(initial);
+  const initial = Route.useLoaderData();
+  const [users, setUsers] = useState<AdminUser[]>(initial.users);
+  const [activity, setActivity] = useState<ActivityEntry[]>(initial.activity);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
