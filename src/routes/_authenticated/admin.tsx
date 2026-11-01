@@ -39,7 +39,9 @@ function AdminPage() {
   const [newPw, setNewPw] = useState("");
 
   async function reload() {
-    setUsers(await listAdminUsers());
+    const [u, a] = await Promise.all([listAdminUsers(), listRecentActivity()]);
+    setUsers(u);
+    setActivity(a);
   }
 
   async function addUser(e: React.FormEvent) {
@@ -133,6 +135,36 @@ function AdminPage() {
                     <Button type="button" variant="ghost" onClick={() => setResetFor(null)}>Cancel</Button>
                   </form>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+      </Panel>
+
+      <Panel title={`Recent activity (${activity.length})`} className="mt-5">
+        <p className="mb-2 text-xs text-muted-foreground">
+          Everything added in the app, newest first. Add or update data on any page, then come back here to see it listed.
+        </p>
+        {!activity.length ? (
+          <p className="text-sm text-muted-foreground">No activity recorded yet. Entries appear when users add eggs, flocks, feed, health records or losses.</p>
+        ) : (
+          <div className="divide-y">
+            {activity.map((a) => (
+              <div key={a.id} className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 py-2.5">
+                <div className="min-w-0">
+                  <span className="font-semibold">{a.username}</span>
+                  <span className="text-muted-foreground"> — </span>
+                  <span>{a.summary}</span>
+                </div>
+                <div className="shrink-0 text-xs text-muted-foreground">
+                  {new Date(a.createdAt).toLocaleString(undefined, {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+                </div>
               </div>
             ))}
           </div>
