@@ -2,7 +2,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { KeyRound, UserPlus } from "lucide-react";
 import { toast } from "sonner";
-import { createAppUser, listAdminUsers, setUserPassword, type AdminUser } from "@/lib/admin.functions";
+import { createAppUser, listAdminUsers, listRecentActivity, setUserPassword, type AdminUser, type ActivityEntry } from "@/lib/admin.functions";
 import { PageHeader, Panel, Field, TextInput } from "@/components/farm-ui";
 import { Button } from "@/components/ui/button";
 

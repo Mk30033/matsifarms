@@ -78,3 +78,27 @@ export const setUserPassword = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export type ActivityEntry = { id: string; username: string; summary: string; createdAt: string };
+
+export const listRecentActivity = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<ActivityEntry[]> => {
+    const admin = await requireAdmin(context as AdminContext);
+    const [{ data: rows, error }, { data: profiles }] = await Promise.all([
+      admin
+        .from("activity_log")
+        .select("id, user_id, summary, created_at")
+        .order("created_at", { ascending: false })
+        .limit(200),
+      admin.from("profiles").select("user_id, username"),
+    ]);
+    if (error) throw new Error(error.message);
+    const names = new Map((profiles ?? []).map((p) => [p.user_id, p.username]));
+    return (rows ?? []).map((r) => ({
+      id: r.id,
+      username: names.get(r.user_id) ?? "Unknown user",
+      summary: r.summary,
+      createdAt: r.created_at,
+    }));
+  });
