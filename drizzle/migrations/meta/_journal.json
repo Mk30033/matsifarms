@@ -50,6 +50,13 @@
       "when": 1793818379404,
       "tag": "0006_activity_skip_zero_egg_rows",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793819120227,
+      "tag": "0007_sides_boxes_layout",
+      "breakpoints": true
     }
   ]
 }

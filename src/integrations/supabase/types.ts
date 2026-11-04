@@ -248,6 +248,7 @@ export type Database = {
       }
       feed_usage: {
         Row: {
+          bags: number | null
           created_at: string
           date: string
           feed_type: string
@@ -258,6 +259,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          bags?: number | null
           created_at?: string
           date?: string
           feed_type: string
@@ -268,6 +270,7 @@ export type Database = {
           user_id?: string
         }
         Update: {
+          bags?: number | null
           created_at?: string
           date?: string
           feed_type?: string
