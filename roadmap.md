@@ -1,0 +1,4 @@
+- [ ] Clear old pen/cage/egg layout records as previously requested, preserving unrelated farm data.
+- [ ] Update egg collection and pens screens to four sides with boxes 1–25; update mortality and flock forms to match.
+- [ ] Let users enter custom feed types and record usage by bags while retaining stock calculations.
+- [ ] Hide Reports from normal users, update screen labels, add metadata/tests if needed, and verify the app.
